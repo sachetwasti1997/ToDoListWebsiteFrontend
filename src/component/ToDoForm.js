@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Container, Form} from "react-bootstrap";
-import {getAllTasks} from '../actions/getTask'
-import {connect} from "react-redux";
+import Axios from "axios";
+import ToDoList from "./ToDoList";
 
 class ToDoForm extends Component{
 
@@ -10,12 +10,9 @@ class ToDoForm extends Component{
         priority : 0
     }
 
-    componentDidMount() {
-        this.props.getAllTasks();
-    }
-
-    sendData = (task) => {
-
+    sendData = async (task) => {
+        const res = await Axios.post('/tasks', task);
+        console.log(res);
     }
 
     displayForm = () => {
@@ -58,20 +55,14 @@ class ToDoForm extends Component{
     }
 
     render() {
-        console.log(this.props)
         return(
             <Container>
                 {this.displayForm()}
+                <ToDoList/>
             </Container>
         )
     }
 
 }
 
-const mapStateToProps = (state) => {
-    return state
-}
-
-export default connect(mapStateToProps , {
-    getAllTasks
-})(ToDoForm);
+export default ToDoForm;
